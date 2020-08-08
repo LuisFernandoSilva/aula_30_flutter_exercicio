@@ -11,8 +11,17 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cards'),
         centerTitle: true,
+        backgroundColor: Colors.blue,
+        title: Text('Home'),
+      ),
+      body: GridView.builder(
+        gridDelegate:
+            SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 1),
+        itemCount: null, // trocar depois < --
+        itemBuilder: (context, index) => Column(
+          children: [],
+        ),
       ),
     );
   }

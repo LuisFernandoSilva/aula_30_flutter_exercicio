@@ -1,6 +1,5 @@
 import 'package:aula_30_flutter_exercicio/controllers/auth_controller.dart';
 import 'package:aula_30_flutter_exercicio/entities/user.dart';
-
 import 'package:aula_30_flutter_exercicio/pages/register_page.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';

@@ -25,22 +25,26 @@ class Db {
       join(pathdataBase, 'apiCard.db'),
       onCreate: (db, version) async {
         await db.execute('''
-        create table user(
-          id integer primary key autoincrement,
-          name text,
-          email text,
-          password text
+        CREATE TABLE user(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          name TEXT,
+          email TEXT,
+          password TEXT
+          );
         ''');
-        await db.execute('''create table appstate (
+        await db.execute('''CREATE TABLE appstate (
             id integer primary key autoincrement,
             email text,
             token text
         );
-
         ''');
       },
       version: 1,
     );
     return db;
   }
+  /*
+  email: l.fernandodasilva@gmail.com
+  senha: 123456
+  */
 }
