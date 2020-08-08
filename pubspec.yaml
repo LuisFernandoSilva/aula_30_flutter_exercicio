@@ -31,7 +31,7 @@ dependencies:
   provider: ^4.3.2
   mobx: ^1.2.1+1
   flutter_mobx: ^1.1.0+1
-
+  email_validator:
 dev_dependencies:
   flutter_test:
     sdk: flutter

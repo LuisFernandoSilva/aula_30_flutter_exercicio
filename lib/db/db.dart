@@ -13,16 +13,16 @@ class Db {
   //recupera o valor da instancia que foi criada no factory para ser usada
   Future<Database> recoverInstance() async {
     if (_instance == null) {
-      _instance = await _openDB();
+      _instance = await openDB();
     }
     return _instance;
   }
 
   //cria as tabelas no banco de dados, se nao houver uma tabela cria uma
-  Future<Database> _openDB() async {
+  Future<Database> openDB() async {
     final pathdataBase = await getDatabasesPath();
     final db = await openDatabase(
-      join(pathdataBase, 'user.db'),
+      join(pathdataBase, 'apiCard.db'),
       onCreate: (db, version) {
         return db.execute('''
         create table user(
