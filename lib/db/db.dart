@@ -23,15 +23,15 @@ class Db {
     final pathdataBase = await getDatabasesPath();
     final db = await openDatabase(
       join(pathdataBase, 'apiCard.db'),
-      onCreate: (db, version) {
-        return db.execute('''
+      onCreate: (db, version) async {
+        await db.execute('''
         create table user(
           id integer primary key autoincrement,
           name text,
           email text,
           password text
-        );
-        create table appstate (
+        ''');
+        await db.execute('''create table appstate (
             id integer primary key autoincrement,
             email text,
             token text

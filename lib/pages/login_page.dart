@@ -1,5 +1,6 @@
 import 'package:aula_30_flutter_exercicio/controllers/auth_controller.dart';
 import 'package:aula_30_flutter_exercicio/entities/user.dart';
+
 import 'package:aula_30_flutter_exercicio/pages/register_page.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
@@ -97,21 +98,19 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(
                     height: 16.0,
                   ),
-                  _isTextFieldVisible
-                      ? OutlineButton(
-                          borderSide: BorderSide(color: Colors.white),
-                          color: Theme.of(context).primaryColorDark,
-                          child: Text("Enter",
-                              style: TextStyle(
-                                fontSize: 18.0,
-                              )),
-                          textColor: Colors.white,
-                          onPressed: () {
-                            if (_formKey.currentState.validate()) {
-                              _sigin();
-                            }
-                          })
-                      : SizedBox(),
+                  OutlineButton(
+                      borderSide: BorderSide(color: Colors.black),
+                      color: Theme.of(context).primaryColorDark,
+                      child: Text("Enter",
+                          style: TextStyle(
+                            fontSize: 18.0,
+                          )),
+                      textColor: Colors.black,
+                      onPressed: () {
+                        if (_formKey.currentState.validate()) {
+                          _sigin();
+                        }
+                      })
                 ],
               ),
             ),
