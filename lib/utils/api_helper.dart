@@ -11,6 +11,7 @@ abstract class ApiHelper {
     );
   }
 
+  //header funcionando para logar com autorizaçao
   static Map<String, dynamic> _defaultHeaders({AppState appState}) {
     final Map<String, dynamic> header = {
       'Content-Type': 'application/json',

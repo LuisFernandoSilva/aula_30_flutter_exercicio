@@ -1,4 +1,5 @@
 import 'package:aula_30_flutter_exercicio/controllers/auth_controller.dart';
+import 'package:aula_30_flutter_exercicio/pages/edit_page.dart';
 import 'package:aula_30_flutter_exercicio/pages/home_page.dart';
 import 'package:aula_30_flutter_exercicio/pages/login_page.dart';
 import 'package:aula_30_flutter_exercicio/pages/register_page.dart';
@@ -26,23 +27,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Provider.of<AuthController>(context);
-    return MaterialApp(initialRoute: HomePage.routeName, routes: {
-      HomePage.routeName: (context) {
-        return Observer(
-          builder: (context) {
-            if (controller.isLoading) {
-              return Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (!controller.isLogedIn) {
-              return LoginPage();
-            }
-            return HomePage();
+    return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        initialRoute: HomePage.routeName,
+        routes: {
+          HomePage.routeName: (context) {
+            return Observer(
+              builder: (context) {
+                if (controller.isLoading) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                if (!controller.isLogedIn) {
+                  return LoginPage();
+                }
+                return EditPage();
+              },
+            );
           },
-        );
-      },
-      RegisterPage.routeName: (context) => RegisterPage(),
-    });
+          RegisterPage.routeName: (context) => RegisterPage(),
+        });
   }
 }
