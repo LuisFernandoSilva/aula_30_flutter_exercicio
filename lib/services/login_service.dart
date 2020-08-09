@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-import 'package:aula_30_flutter_exercicio/api_helper.dart';
-import 'package:aula_30_flutter_exercicio/entities/state.dart';
 import 'package:aula_30_flutter_exercicio/repositories/state_repository.dart';
+import 'package:aula_30_flutter_exercicio/utils/api_helper.dart';
+import 'package:aula_30_flutter_exercicio/entities/state.dart';
+
 import 'package:dio/dio.dart';
 
 class Result<T> {

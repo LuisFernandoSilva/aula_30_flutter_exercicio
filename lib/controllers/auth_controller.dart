@@ -1,6 +1,7 @@
 import 'package:aula_30_flutter_exercicio/entities/state.dart';
-import 'package:aula_30_flutter_exercicio/repositories/state_repository.dart';
+
 import 'package:aula_30_flutter_exercicio/services/login_service.dart';
+import 'package:aula_30_flutter_exercicio/repositories/state_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 part 'auth_controller.g.dart';
