@@ -1,5 +1,6 @@
 class AppState {
   int id;
+
   String email;
   String token;
 
@@ -13,6 +14,7 @@ class AppState {
 
   AppState.fromDatabase(Map<String, dynamic> map) {
     id = map['id'];
+
     email = map['email'];
     token = map['token'];
   }

@@ -1,21 +1,25 @@
 import 'dart:convert';
 
+import 'package:aula_30_flutter_exercicio/api_helper.dart';
 import 'package:aula_30_flutter_exercicio/entities/cards.dart';
+import 'package:aula_30_flutter_exercicio/entities/state.dart';
 import 'package:dio/dio.dart';
 
-class ApiCards {
-  var dio =
-      Dio(BaseOptions(baseUrl: 'https://api-cards-growdev.herokuapp.com'));
+class CardService {
+  final Dio _dio;
+  CardService({AppState appState})
+      : _dio = ApiHelper.getDioInstance(appState: appState);
+
   //pega todas as cartas
   Future<List<Cards>> takeAll({int id}) async {
-    var response = await dio.get('/cards',
+    var response = await _dio.get('/cards',
         queryParameters: id != null ? {'id': id} : null);
     var receive = List<Cards>();
     if (response.statusCode >= 200 && response.statusCode < 300) {
       List list = response.data;
       list.forEach((element) {
         receive.add(Cards.fromMap(element));
-        print(element);
+        /* print(element); */
       });
     } else {
       print('Algo deu errado.');
@@ -25,7 +29,7 @@ class ApiCards {
 
   //escolhe uma carta pelo id
   Future<Cards> takeId(int id) async {
-    var response = await dio.get('/cards/$id');
+    var response = await _dio.get('/cards/$id');
     Cards receive;
     try {
       if (response.statusCode >= 200 && response.statusCode < 300) {
@@ -50,7 +54,7 @@ class ApiCards {
   //salva uma carta
   Future<Cards> save(Cards card) async {
     var dataCard = jsonEncode(card.toMap());
-    var response = await dio.post('/cards', data: dataCard);
+    var response = await _dio.post('/cards', data: dataCard);
     Cards receive;
     try {
       if (response.statusCode >= 200 && response.statusCode < 300) {
@@ -66,7 +70,7 @@ class ApiCards {
   //faz update
   Future<Cards> update(Cards card) async {
     var dataCard = jsonEncode(card.toMap());
-    var response = await dio.put('/cards/${card.id}', data: dataCard);
+    var response = await _dio.put('/cards/${card.id}', data: dataCard);
     Cards receive;
     try {
       if (response.statusCode >= 200 && response.statusCode < 300) {
@@ -82,7 +86,7 @@ class ApiCards {
 
   //faz delete
   Future<void> delete(int id) async {
-    var response = await dio.delete('/cards/$id');
+    var response = await _dio.delete('/cards/$id');
     if (response.statusCode >= 300 && response.statusCode < 200) {
       print('Algo deu errado tente novamente'); //se der algo errado
     } else {

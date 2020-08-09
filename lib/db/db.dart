@@ -34,6 +34,7 @@ class Db {
         ''');
         await db.execute('''CREATE TABLE appstate (
             id integer primary key autoincrement,
+            
             email text,
             token text
         );
@@ -43,8 +44,4 @@ class Db {
     );
     return db;
   }
-  /*
-  email: l.fernandodasilva@gmail.com
-  senha: 123456
-  */
 }

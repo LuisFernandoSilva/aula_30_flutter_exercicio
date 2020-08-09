@@ -42,11 +42,12 @@ class MyApp extends StatelessWidget {
                 if (!controller.isLogedIn) {
                   return LoginPage();
                 }
-                return EditPage();
+                return HomePage();
               },
             );
           },
           RegisterPage.routeName: (context) => RegisterPage(),
+          EditPage.routeName: (context) => EditPage(),
         });
   }
 }

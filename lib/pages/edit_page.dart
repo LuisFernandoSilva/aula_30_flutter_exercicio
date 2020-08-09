@@ -1,6 +1,9 @@
+import 'package:aula_30_flutter_exercicio/controllers/auth_controller.dart';
 import 'package:aula_30_flutter_exercicio/entities/cards.dart';
-import 'package:aula_30_flutter_exercicio/services/api_cards.dart';
+import 'package:aula_30_flutter_exercicio/pages/home_page.dart';
+import 'package:aula_30_flutter_exercicio/services/cards_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class EditPage extends StatefulWidget {
   static String routeName = 'edit_page';
@@ -14,7 +17,8 @@ class _EditPageState extends State<EditPage> {
   String _title = '';
 
   Cards _cards = Cards();
-  ApiCards _serviceCards = ApiCards();
+  CardService _serviceCards;
+  AuthController _authController;
   TextEditingController _titleController;
   TextEditingController _contentController;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -23,14 +27,17 @@ class _EditPageState extends State<EditPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    //quando vier um card para editar seta para true isso ainda nao e certeza depende da home
-/*     final card = ModalRoute.of(context).settings.arguments as Cards;
-    if (card == null) {
+    _authController = Provider.of<AuthController>(context);
+    _serviceCards = CardService(appState: _authController.appState);
+
+    final card = ModalRoute.of(context).settings.arguments as Cards;
+    if (card != null) {
       _editCard = true;
-    } */
-    //depois dentro dos controllers setando a variavel texto tem que vir a informaçao do card
-    _titleController = TextEditingController();
-    _contentController = TextEditingController();
+      _cards.id = card?.id ?? '';
+    }
+
+    _titleController = TextEditingController(text: card?.title ?? '');
+    _contentController = TextEditingController(text: card?.content ?? '');
   }
 
   @override
@@ -55,9 +62,9 @@ class _EditPageState extends State<EditPage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Card: $_title '),
-        centerTitle: true,
-      ),
+          title: Text('Card: $_title '),
+          centerTitle: true,
+          backgroundColor: Colors.blue[900]),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -131,11 +138,28 @@ class _EditPageState extends State<EditPage> {
                   ),
                 ),
                 onTap: () {
-                  _serviceCards.save(_cards);
+                  if (_editCard) {
+                    _serviceCards.update(_cards);
+                    Navigator.of(context)
+                        .pushReplacementNamed(HomePage.routeName);
+                  } else {
+                    _serviceCards.save(_cards);
+                    Navigator.of(context)
+                        .pushReplacementNamed(HomePage.routeName);
+                  }
                 })
           ],
         ),
       ),
     );
+  }
+
+  void _showSnackBar(String text) {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+      content: Text(text),
+      backgroundColor: Colors.red,
+      duration: Duration(seconds: 3),
+    ));
+    Navigator.of(context).pop();
   }
 }
