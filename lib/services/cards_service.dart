@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:aula_30_flutter_exercicio/api_helper.dart';
+import 'package:aula_30_flutter_exercicio/utils/api_helper.dart';
 import 'package:aula_30_flutter_exercicio/entities/cards.dart';
 import 'package:aula_30_flutter_exercicio/entities/state.dart';
 import 'package:dio/dio.dart';
@@ -70,11 +70,13 @@ class CardService {
   //faz update
   Future<Cards> update(Cards card) async {
     var dataCard = jsonEncode(card.toMap());
+    print('card editado${card.toMap()}');
     var response = await _dio.put('/cards/${card.id}', data: dataCard);
     Cards receive;
     try {
       if (response.statusCode >= 200 && response.statusCode < 300) {
         receive = Cards.fromMap(response.data);
+
         print(
             'Alterado com sucesso'); //printa quando o item foi alterado com sucesso
       }

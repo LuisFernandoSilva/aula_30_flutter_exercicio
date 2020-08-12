@@ -1,4 +1,5 @@
 import 'package:aula_30_flutter_exercicio/controllers/auth_controller.dart';
+import 'package:aula_30_flutter_exercicio/controllers/card_controller.dart';
 import 'package:aula_30_flutter_exercicio/entities/cards.dart';
 import 'package:aula_30_flutter_exercicio/pages/home_page.dart';
 import 'package:aula_30_flutter_exercicio/services/cards_service.dart';
@@ -19,6 +20,7 @@ class _EditPageState extends State<EditPage> {
   Cards _cards = Cards();
   CardService _serviceCards;
   AuthController _authController;
+  CardController _cardController;
   TextEditingController _titleController;
   TextEditingController _contentController;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -28,7 +30,8 @@ class _EditPageState extends State<EditPage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _authController = Provider.of<AuthController>(context);
-    _serviceCards = CardService(appState: _authController.appState);
+    _cardController = Provider.of<CardController>(context);
+    /*  _serviceCards = CardService(appState: _authController.appState); */
 
     final card = ModalRoute.of(context).settings.arguments as Cards;
     if (card != null) {
@@ -92,7 +95,7 @@ class _EditPageState extends State<EditPage> {
                           }
                           return null;
                         },
-                        onChanged: (value) {
+                        onSaved: (value) {
                           _cards.title = value;
                         },
                       ),
@@ -114,7 +117,7 @@ class _EditPageState extends State<EditPage> {
                           }
                           return null;
                         },
-                        onChanged: (value) {
+                        onSaved: (value) {
                           _cards.content = value;
                         },
                       ),
@@ -137,15 +140,19 @@ class _EditPageState extends State<EditPage> {
                     ),
                   ),
                 ),
-                onTap: () {
+                onTap: () async {
+                  if (!_formKey.currentState.validate()) {
+                    return;
+                  }
+                  _formKey.currentState.save();
                   if (_editCard) {
-                    _serviceCards.update(_cards);
-                    Navigator.of(context)
-                        .pushReplacementNamed(HomePage.routeName);
+                    await _cardController.updateCard(_cards);
+                    /* _serviceCards.update(_cards); */
+                    Navigator.of(context).pop();
                   } else {
-                    _serviceCards.save(_cards);
-                    Navigator.of(context)
-                        .pushReplacementNamed(HomePage.routeName);
+                    await _cardController.saveCard(_cards);
+                    /* _serviceCards.save(_cards); */
+                    Navigator.of(context).pop();
                   }
                 })
           ],

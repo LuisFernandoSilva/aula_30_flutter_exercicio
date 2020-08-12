@@ -1,37 +1,23 @@
 import 'package:aula_30_flutter_exercicio/controllers/auth_controller.dart';
-import 'package:aula_30_flutter_exercicio/entities/cards.dart';
+import 'package:aula_30_flutter_exercicio/controllers/card_controller.dart';
+
 import 'package:aula_30_flutter_exercicio/entities/user.dart';
 import 'package:aula_30_flutter_exercicio/pages/edit_page.dart';
-import 'package:aula_30_flutter_exercicio/services/cards_service.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends StatelessWidget {
   static String routeName = '/';
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   final _key = GlobalKey<ScaffoldState>();
-  AuthController _authController;
-  CardService _serviceCards;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _authController = Provider.of<AuthController>(context);
-    _serviceCards = CardService(appState: _authController.appState);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
+    AuthController _authController = Provider.of<AuthController>(context);
+    CardController _cardController = Provider.of<CardController>(context)
+      ..takeAllCards();
+
     return Scaffold(
       key: _key,
       drawer: Drawer(
@@ -83,31 +69,21 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: FutureBuilder<List<Cards>>(
-            future: _serviceCards.takeAll(),
-            builder: (ctx, snapshot) {
-              if (!snapshot.hasData && !snapshot.hasError) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-              if (!snapshot.hasData && snapshot.hasError) {
-                return Center(
-                  child: Text(snapshot.hasError.toString()),
-                );
-              }
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: snapshot.data.length,
-                itemBuilder: (context, index) {
-                  return _cardContainer(snapshot.data[index].title,
-                      snapshot.data[index].content, index, () {
-                    Navigator.of(context).pushNamed(EditPage.routeName,
-                        arguments: snapshot.data[index]);
-                  });
-                },
-              );
-            }),
+        child: Observer(builder: (_) {
+          return ListView.builder(
+            shrinkWrap: true,
+            itemCount: _cardController?.cards?.length ?? 1,
+            itemBuilder: (context, index) {
+              return _cardContainer(
+                  _cardController.cards[index].title,
+                  _cardController.cards[index].content,
+                  _cardController.cards[index].id, () {
+                Navigator.of(context).pushNamed(EditPage.routeName,
+                    arguments: _cardController.cards[index]);
+              });
+            },
+          );
+        }),
       ),
     );
   }
@@ -144,7 +120,11 @@ class _HomePageState extends State<HomePage> {
                 )),
               ),
               SizedBox(width: 20),
-              Text(title ?? ''),
+              Text(
+                title ?? '',
+                maxLines: 2,
+                softWrap: false,
+              ),
             ],
           ),
           Divider(height: 20),
