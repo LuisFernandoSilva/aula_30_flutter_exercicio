@@ -6,11 +6,11 @@ part 'card_controller.g.dart';
 class CardController = _CardControllerBase with _$CardController;
 
 abstract class _CardControllerBase with Store {
-  CardService _cardService;
+  UserService _cardService;
   @observable
   var cards = ObservableList<Cards>();
 
-  _CardControllerBase({CardService cardService}) : _cardService = cardService;
+  _CardControllerBase({UserService cardService}) : _cardService = cardService;
 
   @action
   void takeAllCards() {

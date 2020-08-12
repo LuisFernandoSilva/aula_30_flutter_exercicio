@@ -22,7 +22,7 @@ void main() {
         ),
         ProxyProvider<AuthController, CardController>(
           update: (context, authController, __) => CardController(
-            cardService: CardService(appState: authController.appState),
+            cardService: UserService(appState: authController.appState),
           ),
         )
       ],

@@ -4,6 +4,8 @@ class User {
   String name;
   String password;
 
+  User.empty();
+  
   User({
     this.id,
     this.email,

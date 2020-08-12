@@ -22,7 +22,6 @@ class _LoginPageState extends State<LoginPage> {
   User _user = User();
   bool _isTextFieldVisible = true;
   bool _textEdited = false;
-
   bool passwordVisible = true;
 
   @override
@@ -61,7 +60,7 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () {
                   Navigator.of(context).pushNamed(RegisterPage.routeName);
                 },
-              )
+              ),
             ],
           ),
           body: Padding(
@@ -80,7 +79,7 @@ class _LoginPageState extends State<LoginPage> {
                     keyboardType: TextInputType.emailAddress,
                     validator: (value) {
                       if (!EmailValidator.validate(value))
-                        return 'E-mail válido';
+                        return 'E-mail Inválido';
                       return null;
                     },
                     onChanged: (value) {
@@ -100,10 +99,12 @@ class _LoginPageState extends State<LoginPage> {
                   OutlineButton(
                       borderSide: BorderSide(color: Colors.black),
                       color: Theme.of(context).primaryColorDark,
-                      child: Text("Enter",
-                          style: TextStyle(
-                            fontSize: 18.0,
-                          )),
+                      child: Text(
+                        "Enter",
+                        style: TextStyle(
+                          fontSize: 18.0,
+                        ),
+                      ),
                       textColor: Colors.black,
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
@@ -160,16 +161,16 @@ class _LoginPageState extends State<LoginPage> {
           builder: (context) {
             return AlertDialog(
               title: Text("Confira seu email"),
-              content: Text("se sair as alterações serão perdidas"),
+              content: Text("Se sair as alterações serão perdidas"),
               actions: <Widget>[
                 FlatButton(
-                  child: Text("cancelar"),
+                  child: Text("Cancelar"),
                   onPressed: () {
                     Navigator.pop(context);
                   },
                 ),
                 FlatButton(
-                  child: Text("sim"),
+                  child: Text("Sim"),
                   onPressed: () {
                     Navigator.pop(context);
                     Navigator.pop(context);
@@ -192,10 +193,12 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _onFail(String result) {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text(result ?? "Falha ao logar"),
-      backgroundColor: Colors.redAccent,
-      duration: Duration(seconds: 5),
-    ));
+    _scaffoldKey.currentState.showSnackBar(
+      SnackBar(
+        content: Text(result ?? "Falha ao logar"),
+        backgroundColor: Colors.redAccent,
+        duration: Duration(seconds: 5),
+      ),
+    );
   }
 }
