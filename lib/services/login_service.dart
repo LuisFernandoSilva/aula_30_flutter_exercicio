@@ -18,6 +18,7 @@ class LoginService {
 
   Future<Result<String>> signIn({String email, String password}) async {
     final result = Result<String>(status: false, message: 'Erro indefinido');
+    String name;
     try {
       final dio = ApiHelper.getDioInstance();
       final jsonData = JsonEncoder().convert(
@@ -26,6 +27,7 @@ class LoginService {
       final response = await dio.post('/login', data: jsonData);
       if (response.statusCode == 200) {
         result.data = response.data['token'].toString();
+        name = response.data['user']['name'].toString();
         result.status = true;
       }
     } on DioError catch (ex) {
@@ -42,6 +44,7 @@ class LoginService {
         AppState(
           email: email,
           token: result.data,
+          name: name,
         ),
       );
     }

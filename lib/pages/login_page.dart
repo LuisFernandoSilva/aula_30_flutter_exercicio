@@ -300,6 +300,7 @@ class _LoginPageState extends State<LoginPage> {
     _authController.signIn(
       email: _emailController.text,
       password: _passController.text,
+      
     );
   }
 

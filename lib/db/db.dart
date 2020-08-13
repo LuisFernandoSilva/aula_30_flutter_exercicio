@@ -36,10 +36,18 @@ class Db {
             id integer primary key autoincrement,
             email text,
             token text,
+            name text
         );
         ''');
       },
-      version: 1,
+      onUpgrade: (db, oldVersion, newVersion) async {
+        if(oldVersion < 2) {
+        await db.execute('''
+        ALTER TABLE appstate ADD COLUMN name TEXT;
+        ''');
+      }
+      },
+      version: 2,
     );
     return db;
   }
