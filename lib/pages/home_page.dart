@@ -57,6 +57,7 @@ class HomePage extends StatelessWidget {
       ),
       appBar: AppBar(
         centerTitle: true,
+
         title: Text('Home'),
         actions: [
           IconButton(

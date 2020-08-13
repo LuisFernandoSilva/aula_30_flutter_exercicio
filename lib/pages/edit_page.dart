@@ -125,35 +125,33 @@ class _EditPageState extends State<EditPage> {
                 ),
               ),
             ),
-            GestureDetector(
-              child: Container(
-                width: 350,
-                height: 30,
-                decoration: BoxDecoration(
-                    color: Colors.orange,
-                    borderRadius: BorderRadius.circular(20)),
-                child: Center(
-                  child: Text(
-                    'Salvar',
-                    style: TextStyle(color: Colors.white),
-                  ),
+            ButtonTheme(
+              minWidth: 320,
+              child: RaisedButton(
+                color: Colors.orange,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.0),
+                ),
+                onPressed: () async {
+                  if (!_formKey.currentState.validate()) {
+                    return;
+                  }
+                  _formKey.currentState.save();
+                  if (_editCard) {
+                    await _cardController.updateCard(_cards);
+                    /* _serviceCards.update(_cards); */
+                    Navigator.of(context).pop();
+                  } else {
+                    await _cardController.saveCard(_cards);
+                    /* _serviceCards.save(_cards); */
+                    Navigator.of(context).pop();
+                  }
+                },
+                child: Text(
+                  'Salvar',
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
-              onTap: () async {
-                if (!_formKey.currentState.validate()) {
-                  return;
-                }
-                _formKey.currentState.save();
-                if (_editCard) {
-                  await _cardController.updateCard(_cards);
-                  /* _serviceCards.update(_cards); */
-                  Navigator.of(context).pop();
-                } else {
-                  await _cardController.saveCard(_cards);
-                  /* _serviceCards.save(_cards); */
-                  Navigator.of(context).pop();
-                }
-              },
             ),
           ],
         ),
