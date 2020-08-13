@@ -21,6 +21,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthController _authController = Provider.of<AuthController>(context);
     CardController _cardController = Provider.of<CardController>(context)
+    
       ..takeAllCards();
     _alertDialog = _authController;
     return WillPopScope(
@@ -35,6 +36,7 @@ class HomePage extends StatelessWidget {
                   var _user = User(
                     email: _authController.appState.email,
                     name: _authController.appState.email,
+                   
                   );
                   return UserAccountsDrawerHeader(
                     decoration: BoxDecoration(color: Colors.blue[900]),

@@ -35,7 +35,7 @@ class Db {
         await db.execute('''CREATE TABLE appstate (
             id integer primary key autoincrement,
             email text,
-            token text
+            token text,
         );
         ''');
       },
