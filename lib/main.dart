@@ -36,6 +36,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = Provider.of<AuthController>(context);
     return MaterialApp(
+        theme: ThemeData(
+            appBarTheme: AppBarTheme(color: Color.fromRGBO(38, 59, 94, 1))),
         debugShowCheckedModeBanner: false,
         initialRoute: HomePage.routeName,
         routes: {

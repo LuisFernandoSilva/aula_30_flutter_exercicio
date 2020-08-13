@@ -64,9 +64,9 @@ class _EditPageState extends State<EditPage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-          title: Text('Card: $_title '),
-          centerTitle: true,
-          backgroundColor: Colors.blue[900]),
+        title: Text('Card: $_title '),
+        centerTitle: true,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -159,14 +159,5 @@ class _EditPageState extends State<EditPage> {
         ),
       ),
     );
-  }
-
-  void _showSnackBar(String text) {
-    _scaffoldKey.currentState.showSnackBar(SnackBar(
-      content: Text(text),
-      backgroundColor: Colors.red,
-      duration: Duration(seconds: 3),
-    ));
-    Navigator.of(context).pop();
   }
 }

@@ -24,33 +24,11 @@ mixin _$RegisterController on _RegisterControllerBase, Store {
     });
   }
 
-  final _$updateUserAsyncAction =
-      AsyncAction('_RegisterControllerBase.updateUser');
-
-  @override
-  Future<void> updateUser(User user) {
-    return _$updateUserAsyncAction.run(() => super.updateUser(user));
-  }
-
   final _$saveUserAsyncAction = AsyncAction('_RegisterControllerBase.saveUser');
 
   @override
   Future<void> saveUser(User user) {
     return _$saveUserAsyncAction.run(() => super.saveUser(user));
-  }
-
-  final _$_RegisterControllerBaseActionController =
-      ActionController(name: '_RegisterControllerBase');
-
-  @override
-  void takeAllUsers() {
-    final _$actionInfo = _$_RegisterControllerBaseActionController.startAction(
-        name: '_RegisterControllerBase.takeAllUsers');
-    try {
-      return super.takeAllUsers();
-    } finally {
-      _$_RegisterControllerBaseActionController.endAction(_$actionInfo);
-    }
   }
 
   @override

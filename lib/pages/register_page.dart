@@ -1,9 +1,9 @@
-import 'package:aula_30_flutter_exercicio/controllers/Register_controller.dart';
+import 'package:aula_30_flutter_exercicio/controllers/register_controller.dart';
 import 'package:aula_30_flutter_exercicio/entities/user.dart';
 import 'package:aula_30_flutter_exercicio/repositories/user_repository.dart';
+import 'package:aula_30_flutter_exercicio/services/register_service.dart';
 import 'package:flutter/material.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:provider/provider.dart';
 
 class RegisterPage extends StatefulWidget {
   static String routeName = '/register_page';
@@ -13,14 +13,13 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-    bool _editUser = false;
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   User _users = User();
+  RegisterService _registerService = RegisterService();
   RegisterController _registerController;
   TextEditingController _namecontroller;
   TextEditingController _emailcontroller;
   TextEditingController _passwordcontroller;
-  final User _user = User.empty();
   final _formKey = GlobalKey<FormState>();
   final repository = UserRepository();
 
@@ -31,55 +30,25 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   void dispose() {
+    super.dispose();
     _namecontroller.dispose();
     _emailcontroller.dispose();
     _passwordcontroller.dispose();
-    super.dispose();
   }
-
-   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _registerController = Provider.of<RegisterController>(context);
-
-    final user = ModalRoute.of(context).settings.arguments as User;
-    if (user != null) {
-      _editUser = true;
-      _users.id = user?.id ?? '';
-    }
-
-    _namecontroller = TextEditingController(text: user?.name ?? '');
-    _passwordcontroller = TextEditingController(text: user?.password ?? '');
-    _emailcontroller = TextEditingController(text: user?.email ?? '');
-  }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.blue, title: Text('Cadastro')),
+      appBar: AppBar(
+        title: Text('Cadastro'),
+        centerTitle: true,
+      ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
             children: <Widget>[
-              TextFormField(
-                controller: _emailcontroller,
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (!EmailValidator.validate(value)) return 'E-mail Inválido';
-                  return null;
-                },
-                onSaved: (value) {
-                  _user.email = value;
-                },
-                decoration: InputDecoration(
-                  hintText: 'Informe seu nome',
-                  border: OutlineInputBorder(),
-                ),
-              ),
-              SizedBox(height: 15),
               TextFormField(
                 controller: _namecontroller,
                 validator: (value) {
@@ -89,10 +58,26 @@ class _RegisterPageState extends State<RegisterPage> {
                   return null;
                 },
                 onSaved: (value) {
-                  _user.name = value;
+                  _users.name = value;
                 },
                 decoration: InputDecoration(
-                  hintText: 'Informe seu E-mail',
+                  hintText: 'Informe seu Nome',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 15),
+              TextFormField(
+                controller: _emailcontroller,
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (!EmailValidator.validate(value)) return 'E-mail Inválido';
+                  return null;
+                },
+                onSaved: (value) {
+                  _users.email = value;
+                },
+                decoration: InputDecoration(
+                  hintText: 'Informe seu Email',
                   border: OutlineInputBorder(),
                 ),
               ),
@@ -106,7 +91,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   return null;
                 },
                 onSaved: (value) {
-                  _user.password = value;
+                  _users.password = value;
                 },
                 decoration: InputDecoration(
                   hintText: 'Informe uma nova senha',
@@ -115,12 +100,13 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
               SizedBox(height: 30),
               OutlineButton(
-                onPressed: () async {
+                onPressed: () {
                   if (!_formKey.currentState.validate()) {
                     return;
                   }
                   _formKey.currentState.save();
-                  saveUser();
+                  _registerService.save(_users);
+                  Navigator.of(context).pop();
                 },
                 child: Text('Cadastrar'),
               ),

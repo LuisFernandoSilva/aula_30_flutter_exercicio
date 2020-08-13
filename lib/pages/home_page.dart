@@ -57,7 +57,6 @@ class HomePage extends StatelessWidget {
       ),
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.blue[900],
         title: Text('Home'),
         actions: [
           IconButton(
