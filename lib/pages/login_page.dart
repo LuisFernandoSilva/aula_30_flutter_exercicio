@@ -3,6 +3,7 @@ import 'package:aula_30_flutter_exercicio/entities/user.dart';
 import 'package:aula_30_flutter_exercicio/pages/register_page.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 
@@ -50,130 +51,122 @@ class _LoginPageState extends State<LoginPage> {
       child: Scaffold(
           key: _scaffoldKey,
           resizeToAvoidBottomInset: false,
-          // appBar: AppBar(
-          //   title: Text("Login"),
-          //   centerTitle: true,
-          //   actions: <Widget>[
-          //     FlatButton(
-          //       child: Text("Cadastro", style: TextStyle(fontSize: 15.0)),
-          //       textColor: Colors.white,
-          //       onPressed: () {
-          //         Navigator.of(context).pushNamed(RegisterPage.routeName);
-          //       },
-          //     ),
-          //   ],
-          // ),
           body: Container(
-            color: Colors.white,
+            color: Color.fromRGBO(28, 43, 74, 1),
             child: Padding(
               padding: const EdgeInsets.only(
                   top: 16, right: 16, left: 16, bottom: 72),
-              child: Container(
-                color: Color.fromRGBO(38, 59, 94, 1),
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: <Widget>[
-                        Image.asset(
-                          'assets/logo2.jpg',
-                          scale: 2.6,
-                        ),
-                        SizedBox(height: 15),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              'Novo por aqui?',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            FlatButton(
-                              child: Text(
-                                'Crie sua conta aqui',
-                                style: TextStyle(
-                                    color: Colors.orange,
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              onPressed: () {},
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        TextFormField(
-                          controller: _emailController,
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Color.fromRGBO(80, 92, 118, 1),
-                            hintStyle: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                            labelStyle: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                            suffixIcon: Icon(Icons.email),
-                            hintText: "E-mail",
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(16)),
+              child: SingleChildScrollView(
+                child: Container(
+                  color: Color.fromRGBO(48, 69, 94, 1),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Form(
+                      key: _formKey,
+                      child: Column(
+                        children: <Widget>[
+                          Image.asset(
+                            'assets/logo2.jpg',
+                            scale: 2.6,
                           ),
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (!EmailValidator.validate(value))
-                              return 'E-mail Inválido';
-                            return null;
-                          },
-                          onChanged: (value) {
-                            _user.email = value;
-                            _textEdited = true;
-                          },
-                        ),
-                        SizedBox(
-                          height: 16.0,
-                        ),
-                        _isTextFieldVisible
-                            ? inputFieldPassword(_passController, 'Senha',
-                                'Senha', true, true, TextInputType.text)
-                            : SizedBox(),
-                        SizedBox(
-                          height: 16.0,
-                        ),
-                        Row(
-                          children: <Widget>[
-                            Checkbox(
-                              value: true,
-                              onChanged: null,
-                            ),
-                            Text('Mantenha-me conectado',
+                          SizedBox(height: 15),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                'Novo por aqui?',
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontWeight: FontWeight.bold))
-                          ],
-                        ),
-                        ButtonTheme(
-                           minWidth: 320,
-                              child: RaisedButton(
-                              color: Colors.orange,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(18.0),
+                                    fontWeight: FontWeight.bold),
                               ),
-                              child: Text(
-                                "Entrar",
-                                style: TextStyle(
-                                  fontSize: 18.0,
+                              FlatButton(
+                                child: Text(
+                                  'Crie sua conta aqui',
+                                  style: TextStyle(
+                                      color: Colors.orange,
+                                      fontWeight: FontWeight.bold),
                                 ),
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pushNamed(RegisterPage.routeName);
+                                },
                               ),
-                              textColor: Colors.black,
-                              onPressed: () {
-                                if (_formKey.currentState.validate()) {
-                                  _sigin();
-                                }
-                              }),
-                        )
-                      ],
+                            ],
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          TextFormField(
+                            controller: _emailController,
+                            decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Color.fromRGBO(80, 92, 118, 1),
+                              hintStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                              labelStyle: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                              suffixIcon: Icon(Icons.email),
+                              hintText: "E-mail",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(16)),
+                            ),
+                            keyboardType: TextInputType.emailAddress,
+                            validator: (value) {
+                              if (!EmailValidator.validate(value))
+                                return 'E-mail Inválido';
+                              return null;
+                            },
+                            onChanged: (value) {
+                              _user.email = value;
+                              _textEdited = true;
+                            },
+                          ),
+                          SizedBox(
+                            height: 16.0,
+                          ),
+                          _isTextFieldVisible
+                              ? inputFieldPassword(_passController, 'Senha',
+                                  'Senha', true, true, TextInputType.text)
+                              : SizedBox(),
+                          SizedBox(
+                            height: 16.0,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Checkbox(
+                                value: true,
+                                onChanged: null,
+                              ),
+                              Text('Mantenha-me conectado',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold))
+                            ],
+                          ),
+                          ButtonTheme(
+                            minWidth: 320,
+                            child: RaisedButton(
+                                color: Colors.orange,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(18.0),
+                                ),
+                                child: Text(
+                                  "Entrar",
+                                  style: TextStyle(
+                                    fontSize: 18.0,
+                                  ),
+                                ),
+                                textColor: Colors.black,
+                                onPressed: () {
+                                  if (_formKey.currentState.validate()) {
+                                    _sigin();
+                                  }
+                                }),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -241,7 +234,7 @@ class _LoginPageState extends State<LoginPage> {
                 FlatButton(
                   child: Text("Sim"),
                   onPressed: () {
-                    // TODO botar botão funcional para sair
+                    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
                   },
                 ),
               ],
