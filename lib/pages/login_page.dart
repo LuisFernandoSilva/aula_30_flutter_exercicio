@@ -85,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
       child: Scaffold(
           backgroundColor: Color.fromRGBO(0, 20, 50, 1),
           key: _scaffoldKey,
-          resizeToAvoidBottomInset: false,
+          resizeToAvoidBottomInset: true,
           body: Container(
             child: Padding(
               padding: const EdgeInsets.only(top: 48, right: 16, left: 16),

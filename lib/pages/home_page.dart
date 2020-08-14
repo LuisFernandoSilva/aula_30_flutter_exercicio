@@ -10,8 +10,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 import 'package:provider/provider.dart';
 
-import '../controllers/auth_controller.dart';
-
 class HomePage extends StatelessWidget {
   static String routeName = '/';
   final _key = GlobalKey<ScaffoldState>();
@@ -55,19 +53,19 @@ class HomePage extends StatelessWidget {
                 leading: Icon(Icons.exit_to_app),
                 title: Text('Sair'),
                 onTap: () {
-                    if(_alertDialog.value){
+                  if (_alertDialog.value) {
                     SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-                  } else{
+                  } else {
                     _alertDialog.signOut();
                     SystemChannels.platform.invokeMethod('SystemNavigator.pop');
                   }
                 },
               ),
-               ListTile(
+              ListTile(
                 leading: Icon(Icons.exit_to_app),
                 title: Text('Log out'),
                 onTap: () {
-                   _alertDialog.signOut();
+                  _alertDialog.signOut();
                 },
               ),
             ],
@@ -91,13 +89,55 @@ class HomePage extends StatelessWidget {
               shrinkWrap: true,
               itemCount: _cardController?.cards?.length ?? 1,
               itemBuilder: (context, index) {
-                return _cardContainer(
-                    _cardController.cards[index].title,
-                    _cardController.cards[index].content,
-                    _cardController.cards[index].id, () {
-                  Navigator.of(context).pushNamed(EditPage.routeName,
-                      arguments: _cardController.cards[index]);
-                });
+                return Dismissible(
+                    key: UniqueKey(),
+                    direction: DismissDirection.startToEnd,
+                    confirmDismiss: (direction) async => showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                              title: Text(
+                                  'Exluir ${_cardController?.cards?.name}'),
+                              content: Text(
+                                  'Isso irá excluir permanentemente esse item.'),
+                              actions: [
+                                FloatingActionButton(
+                                  backgroundColor: Colors.red,
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Icon(Icons.cancel),
+                                ),
+                                SizedBox(width: 20),
+                                FloatingActionButton(
+                                    backgroundColor: Colors.red,
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      _key.currentState.showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Item excluido com Sucesso.',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          backgroundColor: Colors.red,
+                                          duration: Duration(seconds: 3),
+                                        ),
+                                      );
+                                      _cardController.deleCard(
+                                          _cardController.cards[index].id);
+                                    },
+                                    child: Icon(Icons.delete_sweep)),
+                              ]);
+                        }),
+                    child: _cardContainer(
+                        _cardController.cards[index].title,
+                        _cardController.cards[index].content,
+                        _cardController.cards[index].id, () {
+                      Navigator.of(context).pushNamed(EditPage.routeName,
+                          arguments: _cardController.cards[index]);
+                    }));
               },
             );
           }),
@@ -121,12 +161,11 @@ class HomePage extends StatelessWidget {
                 },
               ),
               FlatButton(
-
                 child: Text("Sim"),
                 onPressed: () {
-                  if(_alertDialog.value){
+                  if (_alertDialog.value) {
                     SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-                  } else{
+                  } else {
                     _alertDialog.signOut();
                     SystemChannels.platform.invokeMethod('SystemNavigator.pop');
                   }

@@ -30,4 +30,10 @@ abstract class _CardControllerBase with Store {
     var cardSave = await _cardService.save(card);
     cards.add(cardSave);
   }
+
+  @action
+  Future<void> deleCard(int index) async {
+    await _cardService.delete(index);
+    takeAllCards();
+  }
 }
