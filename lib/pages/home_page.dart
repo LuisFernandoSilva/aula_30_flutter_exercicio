@@ -128,7 +128,7 @@ class HomePage extends StatelessWidget {
                                       _cardController.deleCard(
                                           _cardController.cards[index].id);
                                     },
-                                    child: Icon(Icons.delete_sweep)),
+                                    child: Icon(Icons.delete_forever)),
                               ]);
                         }),
                     child: _cardContainer(
