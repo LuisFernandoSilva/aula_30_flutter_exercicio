@@ -53,9 +53,21 @@ class HomePage extends StatelessWidget {
               Divider(),
               ListTile(
                 leading: Icon(Icons.exit_to_app),
-                title: Text('sair'),
+                title: Text('Sair'),
                 onTap: () {
-                  _authController.signOut();
+                    if(_alertDialog.value){
+                    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                  } else{
+                    _alertDialog.signOut();
+                    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                  }
+                },
+              ),
+               ListTile(
+                leading: Icon(Icons.exit_to_app),
+                title: Text('Log out'),
+                onTap: () {
+                   _alertDialog.signOut();
                 },
               ),
             ],
@@ -109,10 +121,15 @@ class HomePage extends StatelessWidget {
                 },
               ),
               FlatButton(
+
                 child: Text("Sim"),
                 onPressed: () {
-                  _alertDialog.signOut();
-                  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                  if(_alertDialog.value){
+                    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                  } else{
+                    _alertDialog.signOut();
+                    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                  }
                 },
               ),
             ],

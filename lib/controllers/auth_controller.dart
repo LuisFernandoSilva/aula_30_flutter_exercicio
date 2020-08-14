@@ -45,4 +45,11 @@ abstract class _AuthControllerBase with Store {
     await _loginService.signOut();
     appState = null;
   }
+
+   @action
+  void checked(bool newValue) {
+    value = newValue;
+  }
+  @observable
+  bool value = true;
 }

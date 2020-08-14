@@ -4,6 +4,7 @@ import 'package:aula_30_flutter_exercicio/pages/register_page.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:flip_card/flip_card.dart';
@@ -87,10 +88,9 @@ class _LoginPageState extends State<LoginPage> {
           resizeToAvoidBottomInset: false,
           body: Container(
             child: Padding(
-              padding: const EdgeInsets.only(
-                  top: 48, right: 16, left: 16),
+              padding: const EdgeInsets.only(top: 48, right: 16, left: 16),
               child: SingleChildScrollView(
-                child:Container(
+                child: Container(
                   color: Color.fromRGBO(28, 43, 74, 1),
                   child: Form(
                     key: _formKey,
@@ -174,9 +174,14 @@ class _LoginPageState extends State<LoginPage> {
                             children: <Widget>[
                               Transform.scale(
                                 scale: 2,
-                                child: Checkbox(
-                                  value: true,
-                                  onChanged: null,
+                                child: Observer(
+                                  builder: (context) {
+                                    return Checkbox(
+                                        value: _authController.value,
+                                        onChanged: (value) {
+                                          _authController.checked(value);
+                                        });
+                                  },
                                 ),
                               ),
                               Text('Mantenha-me conectado',
@@ -191,7 +196,8 @@ class _LoginPageState extends State<LoginPage> {
                           minWidth: 320,
                           height: 40,
                           child: Padding(
-                            padding: const EdgeInsets.only(top:12,bottom: 64.0),
+                            padding:
+                                const EdgeInsets.only(top: 12, bottom: 64.0),
                             child: RaisedButton(
                                 color: Color.fromRGBO(225, 110, 0, 1),
                                 shape: RoundedRectangleBorder(
@@ -300,7 +306,6 @@ class _LoginPageState extends State<LoginPage> {
     _authController.signIn(
       email: _emailController.text,
       password: _passController.text,
-      
     );
   }
 

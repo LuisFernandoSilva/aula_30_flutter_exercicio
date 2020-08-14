@@ -62,6 +62,21 @@ mixin _$AuthController on _AuthControllerBase, Store {
     });
   }
 
+  final _$valueAtom = Atom(name: '_AuthControllerBase.value');
+
+  @override
+  bool get value {
+    _$valueAtom.reportRead();
+    return super.value;
+  }
+
+  @override
+  set value(bool value) {
+    _$valueAtom.reportWrite(value, super.value, () {
+      super.value = value;
+    });
+  }
+
   final _$signOutAsyncAction = AsyncAction('_AuthControllerBase.signOut');
 
   @override
@@ -95,11 +110,23 @@ mixin _$AuthController on _AuthControllerBase, Store {
   }
 
   @override
+  void checked(bool newValue) {
+    final _$actionInfo = _$_AuthControllerBaseActionController.startAction(
+        name: '_AuthControllerBase.checked');
+    try {
+      return super.checked(newValue);
+    } finally {
+      _$_AuthControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 isLoading: ${isLoading},
 appState: ${appState},
 loginResult: ${loginResult},
+value: ${value},
 isLogedIn: ${isLogedIn}
     ''';
   }
