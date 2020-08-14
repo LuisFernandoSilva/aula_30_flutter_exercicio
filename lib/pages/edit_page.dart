@@ -17,7 +17,7 @@ class _EditPageState extends State<EditPage> {
   String _title = '';
 
   Cards _cards = Cards();
-  UserService _serviceCards;
+  CardService _serviceCards;
   AuthController _authController;
   CardController _cardController;
   TextEditingController _titleController;
