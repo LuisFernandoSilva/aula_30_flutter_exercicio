@@ -39,6 +39,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text('Cadastro'),
         centerTitle: true,
@@ -47,70 +48,73 @@ class _RegisterPageState extends State<RegisterPage> {
         padding: EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                controller: _namecontroller,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Campo Vazio';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _users.name = value;
-                },
-                decoration: InputDecoration(
-                  hintText: 'Informe seu Nome',
-                  border: OutlineInputBorder(),
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                TextFormField(
+                  controller: _namecontroller,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Campo Vazio';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _users.name = value;
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Informe seu Nome',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
-              ),
-              SizedBox(height: 15),
-              TextFormField(
-                controller: _emailcontroller,
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (!EmailValidator.validate(value)) return 'E-mail Inválido';
-                  return null;
-                },
-                onSaved: (value) {
-                  _users.email = value;
-                },
-                decoration: InputDecoration(
-                  hintText: 'Informe seu Email',
-                  border: OutlineInputBorder(),
+                SizedBox(height: 15),
+                TextFormField(
+                  controller: _emailcontroller,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (!EmailValidator.validate(value))
+                      return 'E-mail Inválido';
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _users.email = value;
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Informe seu Email',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
-              ),
-              SizedBox(height: 15),
-              TextFormField(
-                controller: _passwordcontroller,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Campo Vazio';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  _users.password = value;
-                },
-                decoration: InputDecoration(
-                  hintText: 'Informe uma nova senha',
-                  border: OutlineInputBorder(),
+                SizedBox(height: 15),
+                TextFormField(
+                  controller: _passwordcontroller,
+                  validator: (value) {
+                    if (value.isEmpty) {
+                      return 'Campo Vazio';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    _users.password = value;
+                  },
+                  decoration: InputDecoration(
+                    hintText: 'Informe uma nova senha',
+                    border: OutlineInputBorder(),
+                  ),
                 ),
-              ),
-              SizedBox(height: 30),
-              OutlineButton(
-                onPressed: () {
-                  if (!_formKey.currentState.validate()) {
-                    return;
-                  }
-                  _formKey.currentState.save();
-                  _registerService.save(_users);
-                  Navigator.of(context).pop();
-                },
-                child: Text('Cadastrar'),
-              ),
-            ],
+                SizedBox(height: 30),
+                OutlineButton(
+                  onPressed: () {
+                    if (!_formKey.currentState.validate()) {
+                      return;
+                    }
+                    _formKey.currentState.save();
+                    _registerService.save(_users);
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('Cadastrar'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -5,9 +5,9 @@ import 'package:aula_30_flutter_exercicio/entities/cards.dart';
 import 'package:aula_30_flutter_exercicio/entities/state.dart';
 import 'package:dio/dio.dart';
 
-class UserService {
+class CardService {
   final Dio _dio;
-  UserService({AppState appState})
+  CardService({AppState appState})
       : _dio = ApiHelper.getDioInstance(appState: appState);
 
   //pega todas as cartas

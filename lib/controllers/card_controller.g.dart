@@ -38,6 +38,13 @@ mixin _$CardController on _CardControllerBase, Store {
     return _$saveCardAsyncAction.run(() => super.saveCard(card));
   }
 
+  final _$deleCardAsyncAction = AsyncAction('_CardControllerBase.deleCard');
+
+  @override
+  Future<void> deleCard(int index) {
+    return _$deleCardAsyncAction.run(() => super.deleCard(index));
+  }
+
   final _$_CardControllerBaseActionController =
       ActionController(name: '_CardControllerBase');
 
